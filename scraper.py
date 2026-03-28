@@ -221,7 +221,7 @@ async def _expand_read_more(page: Page) -> None:
                 try:
                     await btn.scroll_into_view_if_needed()
                     await asyncio.sleep(random.uniform(0.2, 0.5))
-                    await btn.click()
+                    await btn.click(force=True)
                     await asyncio.sleep(random.uniform(
                         config.DELAY_EXPAND_CLICK_MIN,
                         config.DELAY_EXPAND_CLICK_MAX,
@@ -235,6 +235,7 @@ async def _expand_read_more(page: Page) -> None:
 async def _dismiss_popups(page: Page) -> None:
     """Dismiss login / cookie / newsletter popups."""
     close_selectors = [
+        "[class*='webmodal'] [class*='close']",
         "[class*='modal'] [class*='close']",
         "[aria-label='Close']",
         "button:has-text('✕')",
@@ -272,7 +273,7 @@ async def _load_page_html(page: Page, url: str) -> str:
     # Wait for at least one review card — but don't hard-fail if timeout
     try:
         # Real selector: review cards use id="review-XXXXXXXX"
-        await page.wait_for_selector("[id^='review-']", timeout=20_000)
+        await page.wait_for_selector("[id^='review-']", state="attached", timeout=20_000)
     except PWTimeout:
         logger.warning("Timed out waiting for review cards — parsing whatever loaded")
 

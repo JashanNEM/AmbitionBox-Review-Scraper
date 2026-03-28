@@ -1,0 +1,27 @@
+2026-03-28 11:28:31  INFO      __main__ — === AmbitionBox Scraper starting ===
+2026-03-28 11:28:31  INFO      __main__ — Target : Coforge  (slug=coforge)
+2026-03-28 11:28:31  INFO      __main__ — Output : output/coforge_reviews.csv
+2026-03-28 11:28:31  WARNING   __main__ — playwright-stealth not installed. Installing now...
+2026-03-28 11:28:32  WARNING   __main__ — Could not auto-install playwright-stealth — run manually: pip install playwright-stealth
+2026-03-28 11:28:33  INFO      __main__ — Browser launched: chrome
+2026-03-28 11:28:34  INFO      __main__ — Warm-up: visiting ambitionbox.com homepage…
+2026-03-28 11:28:42  INFO      __main__ — Warm-up complete
+2026-03-28 11:28:42  INFO      __main__ — Loading reviews page 1…
+2026-03-28 11:31:46  ERROR     asyncio — Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed\nCall log:\n  - attempting scroll into view action\n    2 × waiting for element to be stable\n      - element is not visible\n    - retrying scroll into view action\n    - waiting 20ms\n    2 × waiting for element to be stable\n      - element is not visible\n    - retrying scroll into view action\n      - waiting 100ms\n    44 × waiting for element to be stable\n       - element is not visible\n     - retrying scroll into view action\n       - waiting 500ms\n')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+Call log:
+  - attempting scroll into view action
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+    - waiting 20ms
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+      - waiting 100ms
+    44 × waiting for element to be stable
+       - element is not visible
+     - retrying scroll into view action
+       - waiting 500ms
+

@@ -1,0 +1,83 @@
+2026-03-28 11:32:55  INFO      __main__ — === AmbitionBox Scraper starting ===
+2026-03-28 11:32:55  INFO      __main__ — Target : Exide Industries  (slug=exide-industries)
+2026-03-28 11:32:55  INFO      __main__ — Output : output/exide-industries_reviews.csv
+2026-03-28 11:32:55  WARNING   __main__ — playwright-stealth not installed. Installing now...
+2026-03-28 11:32:56  WARNING   __main__ — Could not auto-install playwright-stealth — run manually: pip install playwright-stealth
+2026-03-28 11:32:57  INFO      __main__ — Browser launched: chrome
+2026-03-28 11:32:57  INFO      __main__ — Warm-up: visiting ambitionbox.com homepage…
+2026-03-28 11:33:03  INFO      __main__ — Warm-up complete
+2026-03-28 11:33:03  INFO      __main__ — Loading reviews page 1…
+2026-03-28 11:36:00  ERROR     asyncio — Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed\nCall log:\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n    - <div class="flex flex-row justify-center">…</div> from <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> subtree intercepts pointer events\n  - retrying click action\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n    - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events\n  - retrying click action\n    - waiting 20ms\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n    - <div class="flex flex-row justify-center">…</div> from <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> subtree intercepts pointer events\n  2 × retrying click action\n      - waiting 100ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events\n  6 × retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events\n    - retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class="flex flex-row justify-center">…</div> from <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> subtree intercepts pointer events\n    - retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events\n    - retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events\n  - retrying click action\n    - waiting 500ms\n')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+Call log:
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="flex flex-row justify-center">…</div> from <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events
+  - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="flex flex-row justify-center">…</div> from <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 100ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events
+  6 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="flex flex-row justify-center">…</div> from <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="webmodal fixed inset-0 flex items-end md:items-center justify-center animate-bottomsheet-fade-in">…</div> intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+
+2026-03-28 11:41:56  INFO      __main__ — === AmbitionBox Scraper starting ===
+2026-03-28 11:41:56  INFO      __main__ — Target : Exide Industries  (slug=exide-industries)
+2026-03-28 11:41:56  INFO      __main__ — Output : output/exide-industries_reviews.csv
+2026-03-28 11:41:56  WARNING   __main__ — playwright-stealth not installed. Installing now...
+2026-03-28 11:41:58  WARNING   __main__ — Could not auto-install playwright-stealth — run manually: pip install playwright-stealth
+2026-03-28 11:41:59  INFO      __main__ — Browser launched: chrome
+2026-03-28 11:41:59  INFO      __main__ — Warm-up: visiting ambitionbox.com homepage…
+2026-03-28 11:42:05  INFO      __main__ — Warm-up complete
+2026-03-28 11:42:05  INFO      __main__ — Loading reviews page 1…
+2026-03-28 11:42:50  INFO      parser — Company meta → name=Exide Industries | rating=3.4 | reviews=2.7k | industry=None
+2026-03-28 11:42:50  INFO      __main__ — Total reviews: 2.7k  → 1 pages to scrape
+2026-03-28 11:42:50  INFO      __main__ — Page  1/1 — 2 reviews written  [████████████████████████████████████████] 1/1  (100.0%)
+2026-03-28 11:42:51  INFO      __main__ — === Scraping complete — 2 reviews written to output/exide-industries_reviews.csv ===

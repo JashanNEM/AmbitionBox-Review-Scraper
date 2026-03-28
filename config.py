@@ -9,7 +9,7 @@
 # e.g. for https://www.ambitionbox.com/reviews/infosys-reviews
 #      set COMPANY_SLUG = "infosys"
 # -----------------------------------------------------------------------------
-COMPANY_SLUG = "tcs"          # ← change this to scrape any company
+COMPANY_SLUG = "tata-chemicals"          # ← change this to scrape any company
 
 # Optional: human-readable name written into every CSV row.
 # If left empty, it is auto-derived from the slug.
