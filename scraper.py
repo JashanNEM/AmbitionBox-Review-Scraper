@@ -211,8 +211,9 @@ async def _expand_read_more(page: Page) -> None:
         "[data-testid$='_ReadMore_dislikes']",
         "[data-testid$='_ReadMore_additional']",
         # Generic fallbacks
-        "a:has-text('read more')",
-        "span:has-text('read more')",
+        "[id^='review-'] a:has-text('read more')",
+        "[id^='review-'] span:has-text('read more')",
+        "[data-testid^='ReviewCard_'] a:has-text('read more')",
     ]
     for sel in selectors:
         try:
@@ -273,7 +274,7 @@ async def _load_page_html(page: Page, url: str) -> str:
     # Wait for at least one review card — but don't hard-fail if timeout
     try:
         # Real selector: review cards use id="review-XXXXXXXX"
-        await page.wait_for_selector("[id^='review-']", state="attached", timeout=20_000)
+        await page.wait_for_selector("[data-testid^='ReviewCard_']", state="attached", timeout=20_000)
     except PWTimeout:
         logger.warning("Timed out waiting for review cards — parsing whatever loaded")
 

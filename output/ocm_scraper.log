@@ -38,3 +38,16 @@
 2026-03-28 11:48:30  WARNING   __main__ — No reviews on page 5 (empty streak: 2)
 2026-03-28 11:48:30  INFO      __main__ — 2 consecutive empty pages — assuming end of reviews
 2026-03-28 11:48:30  INFO      __main__ — === Scraping complete — 58 reviews written to output/ocm_reviews.csv ===
+2026-03-28 12:36:04  INFO      __main__ — === AmbitionBox Scraper starting ===
+2026-03-28 12:36:04  INFO      __main__ — Target : Ocm  (slug=ocm)
+2026-03-28 12:36:04  INFO      __main__ — Output : output/ocm_reviews.csv
+2026-03-28 12:36:04  WARNING   __main__ — playwright-stealth not installed. Installing now...
+2026-03-28 12:36:06  WARNING   __main__ — Could not auto-install playwright-stealth — run manually: pip install playwright-stealth
+2026-03-28 12:36:07  INFO      __main__ — Browser launched: chrome
+2026-03-28 12:36:07  INFO      __main__ — Warm-up: visiting ambitionbox.com homepage…
+2026-03-28 12:36:14  INFO      __main__ — Warm-up complete
+2026-03-28 12:36:14  INFO      __main__ — Loading reviews page 1…
+2026-03-28 12:36:21  INFO      parser — Company meta → name=OCM | rating=3.7 | reviews=58 | industry=None
+2026-03-28 12:36:21  INFO      __main__ — Total reviews: 58  → 6 pages to scrape
+2026-03-28 12:36:21  INFO      __main__ — Page  1/6 — 20 reviews written  [██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 1/6  (16.7%)
+2026-03-28 12:37:07  INFO      __main__ — Page   2/6 — 20 reviews written  [█████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░] 2/6  (33.3%)

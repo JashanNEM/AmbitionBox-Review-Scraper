@@ -142,12 +142,17 @@ def parse_company_meta(soup: BeautifulSoup) -> dict[str, str]:
     # Company name
     name_el = soup.find("button", attrs={"data-testid": "companyName"})
     meta["company_name"] = _text(name_el)
+    
+    # Fallback for premium pages that don't have the companyName testid
+    if not meta.get("company_name"):
+        title_tag = soup.find("title")
+        if title_tag:
+            meta["company_name"] = title_tag.text.split("Reviews")[0].strip()
 
-    # Overall rating + total reviews  →  "3.3 based on 1.1L Reviews"
+    # Overall rating + total reviews
     rr_el = soup.find(attrs={"data-testid": "reviewRating"})
     if rr_el:
         full_text = _text(rr_el)
-        # "3.3 based on 1.1L Reviews"
         m = re.match(r"([\d.]+)\s+based on\s+([\d.,LlKk]+)\s+Reviews?", full_text, re.I)
         if m:
             meta["company_overall_rating"] = m.group(1)
@@ -156,7 +161,18 @@ def parse_company_meta(soup: BeautifulSoup) -> dict[str, str]:
             meta["company_overall_rating"] = _normalise_rating(full_text)
             meta["total_reviews"] = ""
 
-    # Industry — find the GlobalLink that looks like an industry/sector name
+    # NEW: Fallback to find total reviews on premium layouts
+    if not meta.get("total_reviews"):
+        body_text = soup.get_text(" ")
+        m_found = re.search(r"([\d.,LlKk]+)\s+reviews found", body_text, re.I)
+        if m_found:
+            meta["total_reviews"] = m_found.group(1)
+        else:
+            m_based = re.search(r"based on\s+([\d.,LlKk]+)\s+company reviews", body_text, re.I)
+            if m_based:
+                meta["total_reviews"] = m_based.group(1)
+
+    # Industry
     INDUSTRY_PAT = re.compile(
         r"services|consulting|technology|software|banking|finance|healthcare|"
         r"manufacturing|retail|education|insurance|pharma|telecom|media|energy|"
@@ -168,12 +184,10 @@ def parse_company_meta(soup: BeautifulSoup) -> dict[str, str]:
             meta["industry"] = txt
             break
 
-    # Company sub-ratings (the category widget on the page)
+    # Company sub-ratings
     for testid, col_key in COMPANY_RATING_TESTID_MAP.items():
         el = soup.find(attrs={"data-testid": testid})
         if el:
-            # The rating value is in the first span with font-pn-700 or font-pn-600
-            # inside the parent container
             parent = el.parent
             spans = parent.find_all("span")
             for span in spans:
