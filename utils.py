@@ -143,10 +143,20 @@ def build_url(slug: str, page: int) -> str:
     return f"{base}?page={page}"
 
 
-def total_pages_from_meta(total_reviews: str, per_page: int = 10) -> int:
-    """Calculate total pages from total review count string."""
+def total_pages_from_meta(total_reviews: str, per_page: int = 20) -> int:
+    """Calculate total pages from total review count string (handles k and L)."""
     try:
-        n = int(total_reviews.replace(",", "").strip())
+        raw = total_reviews.replace(",", "").strip().lower()
+        multiplier = 1
+        
+        if raw.endswith('k'):
+            multiplier = 1000
+            raw = raw.replace('k', '')
+        elif raw.endswith('l'):
+            multiplier = 100000
+            raw = raw.replace('l', '')
+            
+        n = int(float(raw) * multiplier)
         return max(1, -(-n // per_page))   # ceiling division
     except (ValueError, AttributeError):
         return 1

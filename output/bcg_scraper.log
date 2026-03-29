@@ -75,3 +75,23 @@
 2026-03-28 12:50:24  INFO      __main__ — Page  25/50 — 16 reviews written  [████████████████████░░░░░░░░░░░░░░░░░░░░] 25/50  (50.0%)
 2026-03-28 12:50:52  WARNING   __main__ — Timed out waiting for review cards — parsing whatever loaded
 2026-03-28 12:50:55  WARNING   __main__ — No reviews on page 26 (empty streak: 1)
+2026-03-28 12:51:22  WARNING   __main__ — Timed out waiting for review cards — parsing whatever loaded
+2026-03-28 12:51:24  WARNING   __main__ — No reviews on page 27 (empty streak: 2)
+2026-03-28 12:51:24  INFO      __main__ — 2 consecutive empty pages — assuming end of reviews
+2026-03-28 12:51:25  INFO      __main__ — === Scraping complete — 496 reviews written to output/bcg_reviews.csv ===
+2026-03-28 13:13:17  INFO      __main__ — === AmbitionBox Scraper starting ===
+2026-03-28 13:13:17  INFO      __main__ — Target : Bcg  (slug=bcg)
+2026-03-28 13:13:17  INFO      __main__ — Output : output/bcg_reviews.csv
+2026-03-28 13:13:17  WARNING   __main__ — playwright-stealth not installed. Installing now...
+2026-03-28 13:13:18  WARNING   __main__ — Could not auto-install playwright-stealth — run manually: pip install playwright-stealth
+2026-03-28 13:13:19  INFO      __main__ — Browser launched: chrome
+2026-03-28 13:13:19  INFO      __main__ — Warm-up: visiting ambitionbox.com homepage…
+2026-03-28 13:13:27  INFO      __main__ — Warm-up complete
+2026-03-28 13:13:27  INFO      __main__ — Loading reviews page 1…
+2026-03-28 13:13:38  INFO      parser — Company meta → name=BCG | rating=3.6 | reviews=499 | industry=Management Consulting
+2026-03-28 13:13:38  INFO      __main__ — Total reviews: 499  → 25 pages to scrape
+2026-03-28 13:13:38  INFO      __main__ — Page  1/25 — 20 reviews written  [█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 1/25  (4.0%)
+2026-03-28 13:13:46  WARNING   __main__ — Attempt 1/3 failed (Page.goto: net::ERR_ABORTED at https://www.ambitionbox.com/reviews/bcg-reviews?page=2
+Call log:
+  - navigating to "https://www.ambitionbox.com/reviews/bcg-reviews?page=2", waiting until "domcontentloaded"
+) — retrying in 5.4s

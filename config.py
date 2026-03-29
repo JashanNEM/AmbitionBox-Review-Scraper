@@ -9,7 +9,7 @@
 # e.g. for https://www.ambitionbox.com/reviews/infosys-reviews
 #      set COMPANY_SLUG = "infosys"
 # -----------------------------------------------------------------------------
-COMPANY_SLUG = "bcg"          # ← change this to scrape any company
+COMPANY_SLUG = "ITC"          # ← change this to scrape any company
 
 # Optional: human-readable name written into every CSV row.
 # If left empty, it is auto-derived from the slug.
@@ -20,7 +20,7 @@ COMPANY_DISPLAY_NAME = ""     # e.g. "Tata Consultancy Services"
 # -----------------------------------------------------------------------------
 START_PAGE   = 1              # Resume from a specific page (1 = from beginning)
 MAX_PAGES    = 0              # 0 = scrape ALL pages; set e.g. 5 to cap at 5 pages
-REVIEWS_PER_PAGE = 10         # AmbitionBox shows 10 reviews per page (don't change)
+REVIEWS_PER_PAGE = 20         # AmbitionBox shows 10 reviews per page (don't change)
 
 # -----------------------------------------------------------------------------
 # OUTPUT
