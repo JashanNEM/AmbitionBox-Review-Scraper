@@ -46,5 +46,4 @@ AmbitionBox employs strict TLS fingerprinting and behavior analysis. This scrape
 * **The 10,000 Review Server Limit:** AmbitionBox has a strict server-side hard cap at Page 500 (10,000 reviews). Even if a company has 1.1 Lakh reviews, their database will not serve reviews past page 500 on a single URL. To get beyond this, the script would need to be extended to loop through specific filters (e.g., scraping by specific star ratings or locations).
 * **Implicit Employee Status:** AmbitionBox does not explicitly tag "Current" vs. "Former" employees in the raw DOM properties. This field is inferred by parsing the grammar in the header text (e.g., checking for "former" vs "works at").
 * **Company Metadata Fallbacks:** AmbitionBox recently updated its UI, removing some company metadata (like the Industry) from the visible DOM. To capture this, the parser falls back to extracting the hidden `__NEXT_DATA__` JSON injected by Next.js.
-* **Display Name Column:** The `company_display_name` field is intentionally excluded from the final CSV structure to reduce redundancy, leaving just the raw `company_name` parsed directly from the site.
-```
+
