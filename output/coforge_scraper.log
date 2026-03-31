@@ -1,9 +1,0 @@
-2026-03-29 22:15:34  INFO      __main__ — === AmbitionBox Scraper ===
-2026-03-29 22:17:47  INFO      __main__ — === AmbitionBox Scraper ===
-2026-03-29 22:17:47  INFO      __main__ — Target : COFORGE
-2026-03-29 22:17:47  WARNING   __main__ — playwright-stealth not installed. Auto-installing...
-2026-03-29 22:17:49  INFO      __main__ — Browser launched: chrome
-2026-03-29 22:17:49  INFO      __main__ — Warm-up: visiting ambitionbox.com homepage…
-2026-03-29 22:20:56  ERROR     asyncio — Future exception was never retrieved
-future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
-playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
