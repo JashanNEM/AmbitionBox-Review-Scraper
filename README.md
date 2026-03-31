@@ -1,6 +1,25 @@
+```markdown
 # AmbitionBox Review Scraper
 
 A robust, asynchronous web scraper designed to extract company reviews, ratings, and metadata from AmbitionBox. This tool is engineered to handle dynamic React-based rendering and aggressively bypass enterprise-level anti-bot protections (like Cloudflare).
+
+## 🚀 Quick Start
+
+**1. Install dependencies & browser binaries (Python 3.8+ required):**
+```bash
+pip install -r requirements.txt
+playwright install chromium
+```
+
+**2. Run the scraper:**
+```bash
+# Interactive mode (prompts for company name)
+python scraper.py
+
+# Or pass the company slug directly
+python scraper.py tcs
+```
+*💡 Pro-tip: Press `Ctrl + C` to pause at any time. Run the exact same command later to resume exactly where you left off!*
 
 ## Libraries Used & Why
 
@@ -19,7 +38,7 @@ AmbitionBox employs strict TLS fingerprinting and behavior analysis. This scrape
 * **Human Emulation:** Injects random delays, dismisses popups, triggers slow scrolling to load lazy elements, and simulates human mouse wiggles before navigations.
 
 ### Pagination Strategy
-* **State Management:** Pagination is handled iteratively via URL query parameters (`?page=X`). The scraper saves its progress to a local `{slug}_state.json` file after every page. If interrupted (Ctrl+C) or crashed, the script automatically resumes from the exact page it left off.
+* **State Management:** Pagination is handled iteratively via URL query parameters (`?page=X`). The scraper saves its progress to a local `{slug}_state.json` file after every page. If interrupted (`Ctrl+C`) or crashed, the script automatically resumes from the exact page it left off.
 * **Dynamic Range:** It calculates the total number of pages dynamically by parsing the total reviews count on the first page.
 
 ## Limitations & Missing Fields
@@ -28,3 +47,4 @@ AmbitionBox employs strict TLS fingerprinting and behavior analysis. This scrape
 * **Implicit Employee Status:** AmbitionBox does not explicitly tag "Current" vs. "Former" employees in the raw DOM properties. This field is inferred by parsing the grammar in the header text (e.g., checking for "former" vs "works at").
 * **Company Metadata Fallbacks:** AmbitionBox recently updated its UI, removing some company metadata (like the Industry) from the visible DOM. To capture this, the parser falls back to extracting the hidden `__NEXT_DATA__` JSON injected by Next.js.
 * **Display Name Column:** The `company_display_name` field is intentionally excluded from the final CSV structure to reduce redundancy, leaving just the raw `company_name` parsed directly from the site.
+```
