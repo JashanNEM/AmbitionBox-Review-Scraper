@@ -1,4 +1,4 @@
-```markdown
+
 # AmbitionBox Review Scraper
 
 A robust, asynchronous web scraper designed to extract company reviews, ratings, and metadata from AmbitionBox. This tool is engineered to handle dynamic React-based rendering and aggressively bypass enterprise-level anti-bot protections (like Cloudflare).
