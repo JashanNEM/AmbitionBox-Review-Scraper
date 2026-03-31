@@ -1,6 +1,5 @@
 # =============================================================================
 #  AmbitionBox Scraper — Configuration
-#  ✏️  Only edit this file to scrape a different company
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -9,11 +8,7 @@
 # e.g. for https://www.ambitionbox.com/reviews/infosys-reviews
 #      set COMPANY_SLUG = "infosys"
 # -----------------------------------------------------------------------------
-COMPANY_SLUG = "ITC"          # ← change this to scrape any company
-
-# Optional: human-readable name written into every CSV row.
-# If left empty, it is auto-derived from the slug.
-COMPANY_DISPLAY_NAME = ""     # e.g. "Tata Consultancy Services"
+COMPANY_SLUG = ""          # ← change this to scrape any company
 
 # -----------------------------------------------------------------------------
 # PAGINATION

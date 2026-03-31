@@ -6,6 +6,7 @@ Uses data-testid attributes (stable React identifiers) instead of fragile CSS cl
 
 from __future__ import annotations
 import re
+import json
 import logging
 from typing import Any
 from bs4 import BeautifulSoup, Tag
@@ -56,7 +57,6 @@ ALL_SUBRATING_KEYS = [
 CSV_COLUMNS = [
     # ── Company-level ──────────────────────────────────────────────────────
     "company_name",
-    "company_display_name",
     "industry",
     "total_reviews",
     "company_overall_rating",
@@ -161,7 +161,7 @@ def parse_company_meta(soup: BeautifulSoup) -> dict[str, str]:
             meta["company_overall_rating"] = _normalise_rating(full_text)
             meta["total_reviews"] = ""
 
-    # NEW: Fallback to find total reviews on premium layouts
+    # Fallback to find total reviews on premium layouts
     if not meta.get("total_reviews"):
         body_text = soup.get_text(" ")
         m_found = re.search(r"([\d.,LlKk]+)\s+reviews found", body_text, re.I)
@@ -172,7 +172,7 @@ def parse_company_meta(soup: BeautifulSoup) -> dict[str, str]:
             if m_based:
                 meta["total_reviews"] = m_based.group(1)
 
-    # Industry
+    # Industry (Old UI Fallback)
     INDUSTRY_PAT = re.compile(
         r"services|consulting|technology|software|banking|finance|healthcare|"
         r"manufacturing|retail|education|insurance|pharma|telecom|media|energy|"
@@ -183,6 +183,34 @@ def parse_company_meta(soup: BeautifulSoup) -> dict[str, str]:
         if txt and len(txt) < 60 and INDUSTRY_PAT.search(txt):
             meta["industry"] = txt
             break
+
+    # =========================================================================
+    # NEW: Hidden JSON Fallback for Industry and missing Meta (Next.js Data)
+    # =========================================================================
+    next_data_script = soup.find("script", id="__NEXT_DATA__")
+    if next_data_script and next_data_script.string:
+        try:
+            data = json.loads(next_data_script.string)
+            company_data = data.get("props", {}).get("pageProps", {}).get("companyHeaderData", {})
+            
+            if not meta.get("company_name"):
+                meta["company_name"] = company_data.get("companyName", "").strip()
+            
+            if not meta.get("total_reviews"):
+                rev_count = company_data.get("reviewsCount")
+                if rev_count:
+                    meta["total_reviews"] = str(rev_count)
+            
+            # Extract industry from infoTags
+            if not meta.get("industry") and "infoTags" in company_data:
+                for tag in company_data["infoTags"]:
+                    # Industry tags usually don't have a 'type' key
+                    if "type" not in tag and tag.get("name"):
+                        meta["industry"] = tag["name"].strip()
+                        break
+        except Exception as e:
+            logger.debug(f"JSON parsing error: {e}")
+    # =========================================================================
 
     # Company sub-ratings
     for testid, col_key in COMPANY_RATING_TESTID_MAP.items():
@@ -216,7 +244,7 @@ def parse_review_card(card: Tag, review_id: str,
     row: dict[str, Any] = {col: "" for col in CSV_COLUMNS}
 
     # Carry over company-level fields
-    for key in ["company_name", "company_display_name", "industry",
+    for key in ["company_name", "industry",
                 "total_reviews", "company_overall_rating",
                 "company_work_life_balance", "company_salary_benefits",
                 "company_job_security", "company_company_culture",
