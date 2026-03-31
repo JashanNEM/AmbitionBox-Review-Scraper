@@ -1,183 +1,30 @@
 # AmbitionBox Review Scraper
 
-Extracts **every review** from any AmbitionBox company page into a clean,
-structured CSV — including all sub-ratings, reviewer metadata, and
-company-level aggregates.
+A robust, asynchronous web scraper designed to extract company reviews, ratings, and metadata from AmbitionBox. This tool is engineered to handle dynamic React-based rendering and aggressively bypass enterprise-level anti-bot protections (like Cloudflare).
 
----
+## Libraries Used & Why
 
-## Project Structure
+* **Playwright (`playwright.async_api`)**: Unlike traditional tools like `requests` or `BeautifulSoup` alone, Playwright is necessary here because AmbitionBox relies heavily on client-side JavaScript (Next.js/React) to load review cards. Playwright drives a real browser to ensure all lazy-loaded elements and sub-ratings are fully rendered.
+* **Playwright-Stealth (`playwright_stealth`)**: Essential for bypassing Cloudflare and AmbitionBox's strict bot detection. It patches over 20 common automation vectors (e.g., hiding `navigator.webdriver`, spoofing plugins, and mimicking permissions APIs).
+* **BeautifulSoup (`bs4`)**: Once Playwright renders the JavaScript and extracts the raw HTML, BeautifulSoup is used to parse the DOM. It efficiently searches for stable React `data-testid` attributes to extract review components (Likes, Dislikes, Sub-ratings) reliably.
+* **Standard Python Libraries (`asyncio`, `csv`, `json`, `argparse`, `re`)**: Used for asynchronous event loop management, writing fault-tolerant incremental CSV files, saving session states, and cleaning extracted text via regular expressions.
 
-```
-ambitionbox_scraper/
-├── config.py        ← ✏️  Only file you ever need to edit
-├── scraper.py       ← Playwright engine (pagination, stealth, retry)
-├── parser.py        ← HTML extraction logic (selectors live here)
-├── utils.py         ← CSV writer, logging, retry decorator
-├── requirements.txt
-└── output/
-    └── {slug}_reviews.csv    ← Generated output
-    └── {slug}_scraper.log    ← Run log
-```
+## Pagination & Anti-Scraping Handling
 
----
+### Bypassing Anti-Scraping Measures
+AmbitionBox employs strict TLS fingerprinting and behavior analysis. This scraper handles it through:
+* **Off-Screen Headed Mode:** Cloudflare often blocks "Headless" Chrome due to its distinct TLS fingerprint. The scraper runs a headed, installed version of Chrome (`channel="chrome"`) but moves the window off-screen (`--window-position=-32000,-32000`) so it doesn't interrupt the user.
+* **HTTP/2 Suppression:** Runs with `--disable-http2` to further avoid HTTP/2 protocol fingerprinting mismatches.
+* **Context Rotation & Warm-ups:** The scraper visits the AmbitionBox homepage first to establish legitimate session cookies. It also completely destroys and recreates the browser context (with rotated User-Agents) every 8 pages to prevent rate-limiting.
+* **Human Emulation:** Injects random delays, dismisses popups, triggers slow scrolling to load lazy elements, and simulates human mouse wiggles before navigations.
 
-## Quick Start
+### Pagination Strategy
+* **State Management:** Pagination is handled iteratively via URL query parameters (`?page=X`). The scraper saves its progress to a local `{slug}_state.json` file after every page. If interrupted (Ctrl+C) or crashed, the script automatically resumes from the exact page it left off.
+* **Dynamic Range:** It calculates the total number of pages dynamically by parsing the total reviews count on the first page.
 
-### 1 — Install dependencies (one time only)
+## Limitations & Missing Fields
 
-```bash
-pip install -r requirements.txt
-playwright install chromium
-```
-
-### 2 — Set your target company
-
-Open **`config.py`** and change one line:
-
-```python
-COMPANY_SLUG = "infosys"   # ← use the slug from the AmbitionBox URL
-```
-
-**How to find the slug:**
-Visit `ambitionbox.com`, search for your company, and look at the URL:
-```
-https://www.ambitionbox.com/reviews/tata-consultancy-services-reviews
-                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                                     COMPANY_SLUG = "tata-consultancy-services"
-```
-
-### 3 — Run
-
-```bash
-python scraper.py
-```
-
-That's it. The CSV is saved to `output/{slug}_reviews.csv`.
-
----
-
-## CSV Schema
-
-Every row is one review. Company-level fields are repeated on every row
-(makes it easy to filter/pivot in Excel or pandas).
-
-| Column | Description |
-|--------|-------------|
-| `company_name` | Name as shown on AmbitionBox |
-| `company_display_name` | Your custom label (from config) |
-| `industry` | Industry category |
-| `total_reviews` | Total review count on the page |
-| `company_overall_rating` | Aggregate company rating |
-| `company_work_life_balance` | Company-level sub-rating |
-| `company_salary_benefits` | Company-level sub-rating |
-| `company_job_security` | Company-level sub-rating |
-| `company_company_culture` | Company-level sub-rating |
-| `company_skill_development` | Company-level sub-rating |
-| `company_work_satisfaction` | Company-level sub-rating |
-| `company_promotions_appraisal` | Company-level sub-rating |
-| `review_title` | Headline of the review |
-| `overall_rating` | Reviewer's star rating (1–5) |
-| `review_date` | DD/MM/YYYY |
-| `designation` | Job title / role of reviewer |
-| `employment_type` | Full-time / Part-time / Intern |
-| `employee_status` | Current / Former employee |
-| `work_location` | City of work |
-| `likes` | "Pros" review text |
-| `dislikes` | "Cons" review text |
-| `additional_comments` | Extra comments / suggestions |
-| `sub_work_life_balance` | Per-review sub-rating |
-| `sub_salary_benefits` | Per-review sub-rating |
-| `sub_job_security` | Per-review sub-rating |
-| `sub_company_culture` | Per-review sub-rating |
-| `sub_skill_development` | Per-review sub-rating |
-| `sub_work_satisfaction` | Per-review sub-rating |
-| `sub_promotions_appraisal` | Per-review sub-rating |
-| `source_page` | Page number it was scraped from |
-| `source_url` | Exact URL of that page |
-
----
-
-## Configuration Reference (`config.py`)
-
-| Setting | Default | Effect |
-|---------|---------|--------|
-| `COMPANY_SLUG` | `"tcs"` | Target company |
-| `COMPANY_DISPLAY_NAME` | `""` | Optional label in CSV |
-| `START_PAGE` | `1` | Resume mid-run |
-| `MAX_PAGES` | `0` | `0` = all pages |
-| `OUTPUT_DIR` | `"output"` | Where to save CSV |
-| `DELAY_BETWEEN_PAGES_MIN/MAX` | `3 / 7` | Random wait (seconds) |
-| `MAX_RETRIES` | `3` | Per-page retry attempts |
-| `RETRY_BACKOFF_BASE` | `5` | Retry wait multiplier |
-| `HEADLESS` | `True` | `False` = visible browser |
-| `LOG_LEVEL` | `"INFO"` | `DEBUG` for verbose output |
-
----
-
-## Scraping Multiple Companies
-
-Use a shell loop or a simple wrapper script:
-
-**Bash:**
-```bash
-for slug in infosys wipro hcl-technologies; do
-  python -c "
-import config; config.COMPANY_SLUG = '$slug'
-import scraper; scraper.main()
-"
-done
-```
-
-**Python wrapper:**
-```python
-# batch_run.py
-import importlib, config, scraper
-
-companies = ["infosys", "wipro", "hcl-technologies", "accenture"]
-
-for slug in companies:
-    config.COMPANY_SLUG = slug
-    config.COMPANY_DISPLAY_NAME = ""
-    importlib.reload(scraper)
-    scraper.main()
-```
-
----
-
-## Troubleshooting
-
-### "No review cards found"
-AmbitionBox may have updated its HTML structure.
-Open `parser.py` and update the selectors in the `SEL` dict.
-
-**Debug tip:** Set `HEADLESS = False` in `config.py` and watch the browser
-navigate. Then inspect elements with DevTools to find the correct selectors.
-
-### Getting blocked / CAPTCHA
-- Increase `DELAY_BETWEEN_PAGES_MIN/MAX` (try 8–15 seconds)
-- Set `SLOW_MO = 100` in config.py
-- Consider using a residential proxy (add proxy URL to
-  `browser.new_context(proxy={"server": "..."})` in `scraper.py`)
-
-### Resuming a crashed run
-Set `START_PAGE` to the last successfully scraped page number.
-The CSV writer appends, so existing rows are preserved.
-
-### "lxml not found"
-```bash
-pip install lxml
-```
-
-### Empty sub-rating columns
-Some companies don't show per-review sub-ratings (only company-level ones).
-The company-level columns (`company_*`) will still be populated.
-
----
-
-## Legal & Ethical Notes
-
-- Add reasonable delays (already defaulted to 3–7 seconds per page)
-- Do not run multiple concurrent instances against the same domain
-- Review AmbitionBox's `robots.txt` and Terms of Service before scraping at scale
-- This tool is intended for personal research and analysis only
+* **The 10,000 Review Server Limit:** AmbitionBox has a strict server-side hard cap at Page 500 (10,000 reviews). Even if a company has 1.1 Lakh reviews, their database will not serve reviews past page 500 on a single URL. To get beyond this, the script would need to be extended to loop through specific filters (e.g., scraping by specific star ratings or locations).
+* **Implicit Employee Status:** AmbitionBox does not explicitly tag "Current" vs. "Former" employees in the raw DOM properties. This field is inferred by parsing the grammar in the header text (e.g., checking for "former" vs "works at").
+* **Company Metadata Fallbacks:** AmbitionBox recently updated its UI, removing some company metadata (like the Industry) from the visible DOM. To capture this, the parser falls back to extracting the hidden `__NEXT_DATA__` JSON injected by Next.js.
+* **Display Name Column:** The `company_display_name` field is intentionally excluded from the final CSV structure to reduce redundancy, leaving just the raw `company_name` parsed directly from the site.
