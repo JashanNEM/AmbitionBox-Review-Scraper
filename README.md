@@ -3,7 +3,7 @@
 
 A robust, asynchronous web scraper designed to extract company reviews, ratings, and metadata from AmbitionBox. This tool is engineered to handle dynamic React-based rendering and aggressively bypass enterprise-level anti-bot protections (like Cloudflare).
 
-## 🚀 Quick Start
+## Quick Start
 
 **1. Install dependencies & browser binaries (Python 3.8+ required):**
 ```bash
@@ -19,7 +19,7 @@ python scraper.py
 # Or pass the company slug directly
 python scraper.py tcs
 ```
-*💡 Pro-tip: Press `Ctrl + C` to pause at any time. Run the exact same command later to resume exactly where you left off!*
+Press `Ctrl + C` to pause at any time. Run the exact same command later to resume exactly where you left off!*
 
 ## Libraries Used & Why
 
